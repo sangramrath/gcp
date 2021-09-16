@@ -1,5 +1,5 @@
 resources:
-  - name: taskapp-web-vm-staging
+  - name: taskapp-fe-vm-staging
     type: compute.v1.instance
     properties:
       zone: us-central1-f
@@ -17,8 +17,8 @@ resources:
             sourceImage: https://www.googleapis.com/compute/v1/projects/global-course-228918/global/images/taskapp-web-image-dev
       networkInterfaces:
         - network: https://www.googleapis.com/compute/v1/projects/global-course-228918/global/networks/dm-staging-network 
-          subnetwork: https://www.googleapis.com/compute/v1/projects/global-course-228918/region/subnetworks/dm-staging-subnet
+          subnetwork: https://www.googleapis.com/compute/v1/projects/global-course-228918/regions/us-central1/subnetworks/dm-staging-subnet
           accessConfigs:
             - name: External NAT
               type: ONE_TO_ONE_NAT
- 
+      
