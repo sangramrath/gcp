@@ -1,0 +1,66 @@
+resources:
+  - name: test001
+    type: compute.v1.network
+    properties:
+      name: test_network
+      autoCreateSubnetworks: False
+  - name: test002
+    type: compute.v1.subnetwork
+    properties:
+      name: test003
+      network: $(ref.test001.selfLink)    
+      ipCidrRange: 10.1.0.0/16
+      region: us-central1
+  - name: test004
+    type: compute.v1.firewall
+    properties:
+      name: test005
+      network: $(ref.test001.selfLink)
+      priority: 1001
+      allowed:
+        - IPProtocol: tcp
+          ports: [3306,23]
+  - name: test245
+    type: sqladmin.v1beta4.instance
+    properties:
+      name: test246
+      project: My-Project-ID
+      backendType: SECOND_GEN
+      databaseVersion: MYSQL_5_7
+      region: us-central1
+      settings:
+        tier: db-n1-standard-1
+        backupConfiguration:
+          enabled: True
+          binaryLogEnabled: True
+        activationPolicy: ALWAYS
+        ipConfiguration:
+          ipv4Enabled: True
+          authorizedNetworks:
+            - kind: sql#aclEntry
+              value: 0.0.0.0/0
+          requireSsl: True
+        dataDiskSizeGb: 25
+        dataDiskType: PD_SSD
+      instanceType: CLOUD_SQL_INSTANCE
+ #Configuration file to build architecture
+  - name: test007
+    type: compute.v1.instance
+    properties:
+      zone: us-central1-f
+      machineType: https://www.googleapis.com/compute/v1/projects/My-Project-ID/zones/us-central1-f/machineTypes/f1-micro
+      disks:
+        - deviceName: boot
+          type: PERSISTENT
+          boot: true
+          autoDelete: true
+          initializeParams:
+            sourceImage: https://www.googleapis.com/compute/v1/projects/debian-cloud/global/images/family/debian-8
+      networkInterfaces:
+        - network: $(ref.test001.selfLink)
+          subnetwork: $(ref.test002.selfLink)
+          accessConfigs:
+            - name: External NAT
+              type: ONE_TO_ONE_NAT
+      
+ 
