@@ -1,0 +1,23 @@
+resources:
+  - name: dm-staging-network
+    type: compute.v1.network
+    properties:
+      name: global-vpc-staging
+      autoCreateSubnetworks: False
+  - name: dm-staging-subnet
+    type: compute.v1.subnetwork
+    properties:
+      name: subnet-staging-dmz
+      network: $(ref.dm-staging-network.selfLink)    
+      ipCidrRange: 10.1.0.0/16
+      region: us-central1
+  - name: dm-staging-fw
+    type: compute.v1.firewall
+    properties:
+      name: fw-staging
+      network: $(ref.dm-staging-network.selfLink)
+      priority: 1001
+      allowed:
+        - IPProtocol: tcp
+          ports: [22,3389]
+
