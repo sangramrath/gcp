@@ -1,0 +1,24 @@
+resources:
+  - name: taskapp-web-vm-staging
+    type: compute.v1.instance
+    properties:
+      zone: us-central1-f
+      machineType: https://www.googleapis.com/compute/v1/projects/global-course-228918/zones/us-central1-f/machineTypes/f1-micro
+      metadata:
+        items:
+        - key: startup-script-url
+          value: gs://global-course-228918/taskapp-startup-script.sh
+      disks:
+        - deviceName: boot
+          type: PERSISTENT
+          boot: true
+          autoDelete: true
+          initializeParams:
+            sourceImage: https://www.googleapis.com/compute/v1/projects/global-course-228918/global/images/taskapp-web-image-dev
+      networkInterfaces:
+        - network: https://www.googleapis.com/compute/v1/projects/global-course-228918/global/networks/dm-staging-network 
+          subnetwork: https://www.googleapis.com/compute/v1/projects/global-course-228918/region/subnetworks/dm-staging-subnet
+          accessConfigs:
+            - name: External NAT
+              type: ONE_TO_ONE_NAT
+ 
