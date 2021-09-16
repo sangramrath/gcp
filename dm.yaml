@@ -19,7 +19,7 @@ resources:
       priority: 1001
       allowed:
         - IPProtocol: tcp
-          ports: [3306,23]
+          ports: [3306,22]
   - name: test245
     type: sqladmin.v1beta4.instance
     properties:
@@ -55,7 +55,7 @@ resources:
           boot: true
           autoDelete: true
           initializeParams:
-            sourceImage: https://www.googleapis.com/compute/v1/projects/debian-cloud/global/images/family/debian-8
+            sourceImage: https://www.googleapis.com/compute/v1/projects/debian-cloud/global/images/family/debian-10
       networkInterfaces:
         - network: $(ref.test001.selfLink)
           subnetwork: $(ref.test002.selfLink)
