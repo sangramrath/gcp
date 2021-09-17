@@ -14,3 +14,20 @@ provider "google" {
 resource "google_compute_network" "tf-network" {
   name = "tf-demo-network"
 }
+
+resource "google_compute_instance" "tf-instance" {
+  name = "tf-demo-instance"
+  machine_type = "f1-micro"
+  zone = "us-central1-f"
+  boot_disk {
+    initialize_params {
+        image = "debian-cloud/debian-10"
+    }
+  }
+  network_interface {
+    network = google_compute_network.tf-network.name
+    access_config {
+      
+    }
+  }
+}
