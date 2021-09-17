@@ -16,6 +16,7 @@ resource "google_compute_network" "tf-network" {
 }
 resource "google_compute_subnetwork" "tf-subnet-usc1" {
   name = "tf-demo-subnet"
+  network = google_compute_network.tf-network.name
   ip_cidr_range = "10.10.0.0/24"
   region = "us-central1"
 }
